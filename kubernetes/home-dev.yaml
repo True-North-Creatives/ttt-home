@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: homepage
+  name: homepage
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: homepage
+  template:
+    metadata:
+      labels:
+        app: homepage
+    spec:
+      containers:
+      - image: gcr.io/develop-306822/github.com/true-north-creatives/ttt-home@sha256:b947ef13569701e753d46050373b6bd8b207e02eaeb29eb2dff1f29378e07eef
+        ports:
+        - containerPorts: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homepage
+spec:
+  type: ClusterIP
+  selector:
+    app: homepage
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homepage-external
+spec:
+  type: LoadBalancer
+  selector:
+    app: homepage
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+---
