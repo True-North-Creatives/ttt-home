@@ -95,6 +95,12 @@
     }
 }
 
+@media (max-width: 370px) {
+    .small-mobile-hide {
+        display: none;
+    }
+}
+
 .done {
     opacity: 0.5;
 }

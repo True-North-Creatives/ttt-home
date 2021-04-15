@@ -25,7 +25,7 @@ const ResetPage = (props) => {
     React.useEffect(() => {
         const verify = async () => {
             const res = await axios.get(
-                `${process.env.REACT_APP_API_URL}/api/v1/auth/reset/${props.match.params.secret}`
+                `/api/v2/auth/reset/${props.match.params.secret}`
             );
             console.log('response', res.data);
             res.data.result && setEmail(res.data.email);
@@ -36,8 +36,8 @@ const ResetPage = (props) => {
     const [pass, setPass] = useState('');
 
     const resetPassword = async () => {
-        const res = await axios.post(
-            `${process.env.REACT_APP_API_URL}/api/v1/auth/update`,
+        const res = await axios.patch(
+            `/api/v2/auth/update`,
             { token: props.match.params.secret, pass }
         );
         console.log('response', res.data);

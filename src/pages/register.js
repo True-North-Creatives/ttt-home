@@ -24,7 +24,10 @@ import { SignUpWithGIcon, SignUpWithFBIcon } from './../components/signInBtn';
 import img from './../assets/img/1.png';
 const RegisterPage = () => {
     const [email, setUserName] = useState('');
-
+const register = async() => {
+    const response = await emailAuthSignUp(email);
+    response && alert(response.error.message);
+}
     return (
         <Wrapper>
             <Left>
@@ -48,7 +51,7 @@ const RegisterPage = () => {
                             }
                         />
                     </FormWrapper>
-                    <ActionButton onClick={() => emailAuthSignUp(email)}>
+                    <ActionButton onClick={register}>
                         Register
                     </ActionButton>
                     <ORWrapper>

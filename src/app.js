@@ -10,6 +10,7 @@ import Activate from './pages/activate';
 import Services from './modules/Services/Services';
 import Experts from './modules/Experts/Experts';
 import Faqs from './modules/Faq/Faqs';
+import Subscription from './modules/Subscription';
 import Payment from './modules/Payment';
 import './App.css';
 
@@ -29,6 +30,9 @@ function App() {
                 </Route>
                 <Route exact path="/faq">
                     <Faqs />
+                </Route>
+                <Route exact path="/subscription">
+                    <Subscription />
                 </Route>
                 <Route exact path="/payment">
                     <Payment />

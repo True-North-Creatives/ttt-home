@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
 export const SubcriptionCards = styled.div`
-    background-color: rgb(15, 53, 114);
+    background-color: ${props => props.color === 'dark' ? 'rgb(29, 29, 29)': 'rgb(15, 53, 114)'};
     width: 220px;
     min-width: 220px;
     border-radius: 20px;
-    height: 200px;
+    height: ${props => props.slim ? '75px' : '200px'};
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
@@ -14,14 +14,16 @@ export const SubcriptionCards = styled.div`
         margin-left: 10px;
         margin-right: 0;
         width: 250px;
-        height: 220px;
+        height: ${props => props.slim ? '60px' : '220px'};;
         margin-bottom: 40px;
     }
+    display:${props => props.slim && 'flex !important'}
 `;
 
 export const SubcriptionPlan = styled.div`
     margin-left: 20px;
     padding-top: 20px;
+    display:flex;
 `;
 
 export const SubcriptionAmount = styled.span`
@@ -48,7 +50,7 @@ export const Symbol = styled.sup`
 
 export const SymbolPrice = styled.div`
     text-align: center;
-    margin-top: 10px;
+    margin-top: ${props => props.slim ? 0 : '10px'};
 `;
 
 export const Desc = styled.div`

@@ -14,12 +14,13 @@ const signInFB = (result) => {
 };
 
 const signInGoogle = (result) => {
+    console.log('result: ',result.profileObj);
     const payload = result.profileObj;
     signIn({ ...payload, providerId: 'GOOGLE' });
 };
 
 const signUpGoogle = (result) => {
-    console.log('result', result);
+    console.log('result: ',result.profileObj);
     const payload = result.profileObj;
     signUp({ ...payload, providerId: 'GOOGLE' });
 };
@@ -35,7 +36,7 @@ export const SignUpWithFBIcon = () => (
 
 export const SignUpWithGIcon = () => (
     <GoogleLogin
-        clientId="207571685786-eh675tr5hj8de0cfu4pp9vu6n00s515c.apps.googleusercontent.com"
+        clientId="570371664823-o0a868oos01akjtn5ocejjpnj1d30fi8.apps.googleusercontent.com"
         onSuccess={signUpGoogle}
         render={(renderProps) => (
             <GoogleIcon
@@ -57,7 +58,7 @@ export const SignInWithFBIcon = () => (
 
 export const SignInWithGIcon = () => (
     <GoogleLogin
-        clientId="207571685786-eh675tr5hj8de0cfu4pp9vu6n00s515c.apps.googleusercontent.com"
+        clientId="570371664823-o0a868oos01akjtn5ocejjpnj1d30fi8.apps.googleusercontent.com"
         onSuccess={signInGoogle}
         render={(renderProps) => (
             <GoogleIcon

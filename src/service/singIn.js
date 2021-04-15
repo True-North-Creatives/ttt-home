@@ -1,70 +1,83 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const signIn = async (payload) => {
-    const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/v1/auth/signin`,
-        { ...payload },
-        { withCredentials: true }
-    );
-    console.log(res, 'signIn', res.status);
-    if (res.status === 200 && res.data.error && res.data.error.code === 101) {
-        //account doesn't exist, registering it
-        signUp(payload);
-        return;
-    }
-    if(res.status === 200 && res.data.code === 104) {
-        window.location.href = `${process.env.REACT_APP_HOMEPAGE}/payment`
-        return;
-    }
-    //after signin take to app
-    window.location.href = `${process.env.REACT_APP_USER_APP}`;
+  const {data, status} = await axios.post(
+    `/api/v2/auth/signin`,
+    { ...payload },
+    { withCredentials: true, validateStatus: (status) => status <= 500 }
+  );
+  // console.log(data, "signIn", status);
+  // if (status === 200 && data.error && data.error.code === 101) {
+  //   //account doesn't exist, registering it
+  //   signUp(payload);
+  //   return;
+  // }
+  if(status !== 200) {
+    alert(data.error.message);
+    return;
+  }
+  if (status === 200 && data.code === 'AUTH-103') {
+    window.location.href = `/subscription`;
+    return;
+  }
+  //after signin take to app
+  window.location.href = `http://app.timetotrain.fit`;
 };
 
 export const signUp = async (payload) => {
-    const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/v1/auth/signup`,
-        { ...payload },
-        { withCredentials: true }
-    );
-    console.log(res.data, 'signIn');
-    if (
-        res.status === 400 &&
-        res.data.message &&
-        res.data.message === 'Email already taken'
-    ) {
-        //account already exist, logining in now
-        signIn(payload);
-        return;
-    }
-    //after signup take to payment page
-    window.location.href = `${process.env.REACT_APP_HOMEPAGE}/payment`;
+  const res = await axios.post(
+    `/api/v2/auth/signup`,
+    { ...payload },
+    { withCredentials: true, validateStatus: (status) => status <= 500 }
+  );
+  console.log(res.data, "signIn");
+  if (
+    res.status === 400 &&
+    res.data.message &&
+    res.data.message === "Email already taken"
+  ) {
+    //account already exist, logining in now
+    signIn(payload);
+    return;
+  }
+  //after signup take to subscription page
+  window.location.href = `/subscription`;
 };
 
 export const emailAuthSignUp = async (email) => {
-    if (email === '') {
-        return;
-    }
-    const { data } = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/v1/auth/signup`,
-        {
-            email,
-            providerId: 'EMAIL',
-        },
-        { withCredentials: true }
-    );
-    console.log(data, 'signUp');
-    window.location.href = `${process.env.REACT_APP_HOMEPAGE}/payment`;
+  if (email === "") {
+    return;
+  }
+  const { data, status } = await axios.post(
+    `/api/v2/auth/signup`,
+    {
+      email,
+      providerId: "EMAIL",
+    },
+    { withCredentials: true, validateStatus: (status) => status <= 500 }
+  );
+  if (status !== 200) return { error: data };
+  window.location.href = `/subscription`;
 };
 
 export const emailAuthSingIn = async (email, pass) => {
-    if (email === '' || pass === '') {
-        return;
-    }
-    const { data } = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/v1/auth/signin`,
-        { email, pass },
-        { withCredentials: true }
-    );
-    console.log(data, 'signIn');
+  if (email === "" || pass === "") {
+    return;
+  }
+  const { data, status } = await axios.post(
+    `/api/v2/auth/signin`,
+    { email, pass },
+    { withCredentials: true, validateStatus: (status) => status <= 500 }
+  );
+  console.log(data, "signIn");
+  if (status === 200) {
     window.location.href = `${process.env.REACT_APP_USER_APP}`;
+    return;
+  }
+  if(status === 307) {
+    alert(data.error.message)
+    window.location.href = `/subscription`;
+    return;
+  }
+  alert(data.error.message)
 };

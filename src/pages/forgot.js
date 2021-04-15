@@ -20,7 +20,7 @@ const ForgotPage = () => {
     const resetPassword = () => {
         const sendMail = async () => {
             const res = await axios.post(
-                `${process.env.REACT_APP_API_URL}/api/v1/auth/reset`,
+                `/api/v2/auth/reset`,
                 { email },
                 { withCredentials: true }
             );
