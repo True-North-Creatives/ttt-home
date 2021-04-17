@@ -21,7 +21,7 @@ export const signIn = async (payload) => {
     return;
   }
   //after signin take to app
-  window.location.href = `http://app.timetotrain.fit`;
+  window.location.href = `${process.env.REACT_APP_USER_APP}`;
 };
 
 export const signUp = async (payload) => {
